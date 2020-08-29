@@ -20,8 +20,14 @@ func main() {
 	frontDoorPin.Input()
 
 	for {
-		fmt.Println("Garage res:", garagePin.Read())
-		fmt.Println("Front res:", frontDoorPin.Read())
+//		garage := garagePin.Read()
+		frontDoor := frontDoorPin.Read()
+		if frontDoor == 1 {
+			fmt.Println("Exiting, front door hot!")
+			break
+		}
+//		fmt.Println("Garage res:", garagePin.Read())
+//		fmt.Println("Front res:", frontDoorPin.Read())
 	}
 
 	r := router.Router()
