@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/stianeikeland/go-rpio"
 	"gosecure/router"
 	"log"
 	"net/http"
@@ -45,7 +44,7 @@ func main() {
 	fmt.Println("Starting server on port 8080...")
 
 	port := ":8080"
-	err = http.ListenAndServe(port, r)
+	err := http.ListenAndServe(port, r)
 	if err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
