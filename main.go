@@ -10,22 +10,22 @@ import (
 
 func main() {
 
-	err := rpio.Open()
-	if err != nil {
-		log.Fatal("Error opening pins", err)
-	}
-	garagePin := rpio.Pin(18)
-	garagePin.Input()
-	garagePin.Detect(rpio.RiseEdge)
-	frontDoorPin := rpio.Pin(23)
-	frontDoorPin.Input()
-	frontDoorPin.Detect(rpio.RiseEdge)
-
-	for {
-		if frontDoorPin.EdgeDetected() {
-			fmt.Println("Edge at front door!")
-		}
-	}
+	//err := rpio.Open()
+	//if err != nil {
+	//	log.Fatal("Error opening pins", err)
+	//}
+	//garagePin := rpio.Pin(18)
+	//garagePin.Input()
+	//garagePin.Detect(rpio.RiseEdge)
+	//frontDoorPin := rpio.Pin(23)
+	//frontDoorPin.Input()
+	//frontDoorPin.Detect(rpio.RiseEdge)
+	//
+	//for {
+	//	if frontDoorPin.EdgeDetected() {
+	//		fmt.Println("Edge at front door!")
+	//	}
+	//}
 
 //	for {
 //		garage := garagePin.Read()
