@@ -16,19 +16,30 @@ func main() {
 	}
 	garagePin := rpio.Pin(18)
 	garagePin.Input()
+	garagePin.Detect(rpio.RiseEdge)
 	frontDoorPin := rpio.Pin(23)
 	frontDoorPin.Input()
+	frontDoorPin.Detect(rpio.RiseEdge)
 
 	for {
-//		garage := garagePin.Read()
-		frontDoor := frontDoorPin.Read()
-		if frontDoor == 1 {
-			fmt.Println("Exiting, front door hot!")
-			break
+		if frontDoorPin.EdgeDetected() {
+			fmt.Println("Edge at front door!")
 		}
-//		fmt.Println("Garage res:", garagePin.Read())
-//		fmt.Println("Front res:", frontDoorPin.Read())
 	}
+
+//	for {
+//		garage := garagePin.Read()
+//		frontDoor := frontDoorPin.Read()
+//		if frontDoor == 1 {
+//			fmt.Println("Exiting, front door hot!")
+//			break
+//		}
+//		if garage == 1 {
+//			fmt.Println()
+//		}
+////		fmt.Println("Garage res:", garagePin.Read())
+////		fmt.Println("Front res:", frontDoorPin.Read())
+//	}
 
 	r := router.Router()
 	fmt.Println("Starting server on port 8080...")
