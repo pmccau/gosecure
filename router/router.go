@@ -11,6 +11,6 @@ func Router() *mux.Router {
 
 	// Serve
 	router.HandleFunc("/api/weather", middleware.GetWeather)
-	router.HandleFunc("/api/pins", middleware.TCheckPins)
+	router.HandleFunc("/api/pins", middleware.CheckPins)
 	return router
 }
