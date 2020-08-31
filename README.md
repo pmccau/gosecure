@@ -1,3 +1,5 @@
+![gosecure-logo](https://github.com/pmccau/gosecure-frontend/blob/master/public/gosecure_logo.png)
+
 # gosecure
 
 gosecure is an open source home security and automation hub. At the moment it features contact sensor notifications
