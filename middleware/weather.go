@@ -14,13 +14,7 @@ import (
 func GetWeather(w http.ResponseWriter, r *http.Request) {
 	var res interface{}
 	fmt.Println("Fetching weather")
-
-	// Credentials
-	dat, err := ioutil.ReadFile("./cred.pickle")
-	if err != nil {
-		log.Fatal(err)
-	}
-	api_key := strings.TrimSpace(string(dat))
+	api_key := readCredFromFile("./cred.pickle")
 
 	// Retrieve the data from the weather site
 	_ = json.NewDecoder(r.Body).Decode(&res)
@@ -59,4 +53,13 @@ func SetResponseHeaders(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+}
+
+func readCredFromFile(filename string) string {
+	// Credentials
+	dat, err := ioutil.ReadFile(filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.TrimSpace(string(dat))
 }

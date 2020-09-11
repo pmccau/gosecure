@@ -3,3 +3,4 @@ frontend/.idea
 .idea
 cred.pickle
 logs
+ecred.pickle
