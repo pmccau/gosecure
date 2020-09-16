@@ -62,12 +62,13 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 	var name string
 	var futureStateStr string
 	var toWrite string
+	var stateChanged []*Pin
 
 	for i := range Pins {
 		p := Pins[i]
 		nextState := rpio.ReadPin(p.Pin) == 1
 		if (nextState != p.Current) {
-			name, futureStateStr, toWrite = LogPinEvent(p)
+			stateChanged = append(stateChanged, p)
 		}
 		p.Current = nextState
 	}
@@ -77,7 +78,10 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(Pins)
 
 	// Send the email afterwards to not delay the sound
-	SendMail(fmt.Sprintf("%s is %s", name, futureStateStr), toWrite)
+	for i := range stateChanged {
+		name, futureStateStr, toWrite = LogPinEvent(stateChanged[i])
+		SendMail(fmt.Sprintf("%s is %s", name, futureStateStr), toWrite)
+	}
 }
 
 // Check on the Pins and pass a status back
