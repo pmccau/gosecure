@@ -59,12 +59,15 @@ func Init() {
 func CheckPins(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Fetching pin status")
 	Init()
+	var name string
+	var futureStateStr string
+	var toWrite string
 
 	for i := range Pins {
 		p := Pins[i]
 		nextState := rpio.ReadPin(p.Pin) == 1
 		if (nextState != p.Current) {
-			LogPinEvent(p)
+			name, futureStateStr, toWrite = LogPinEvent(p)
 		}
 		p.Current = nextState
 	}
@@ -72,6 +75,9 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 	// Send back API response
 	SetResponseHeaders(w)
 	json.NewEncoder(w).Encode(Pins)
+
+	// Send the email afterwards to not delay the sound
+	SendMail(fmt.Sprintf("%s is %s", name, futureStateStr), toWrite)
 }
 
 // Check on the Pins and pass a status back
@@ -85,14 +91,12 @@ func CheckPinLogs(w http.ResponseWriter, r *http.Request) {
 }
 
 // LogPinEvent will do some simple logging about a status change in a Pin
-func LogPinEvent(p *Pin) {
+func LogPinEvent(p *Pin) (string, string, string) {
 	timestamp := time.Now().Format("Mon Jan _2 15:04:05 2006")
 	currentStateStr := PinStatusToString(p.Current)
 	futureStateStr := PinStatusToString(!p.Current)
 	toWrite := fmt.Sprintf("[%s] Detected shift in %s from %s to %s\n",
 		timestamp, p.Name, currentStateStr, futureStateStr)
-
-	SendMail(fmt.Sprintf("%s is %s", p.Name, futureStateStr), toWrite)
 
 	f, err := os.OpenFile(LOG_FILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666);
 	if err != nil {
@@ -102,6 +106,7 @@ func LogPinEvent(p *Pin) {
 	if _, err = f.WriteString(toWrite); err != nil {
 		log.Fatal(err)
 	}
+	return p.Name, futureStateStr, toWrite
 }
 
 // Should read the log's tail, then serve it up
