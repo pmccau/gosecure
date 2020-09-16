@@ -18,7 +18,7 @@ type Pin struct {
 	Pin 			rpio.Pin
 }
 
-var LOG_FILE = "logs/pins_test.log"
+var LOG_FILE = "logs/pins.log"
 var gpioInit = false
 var Pins []*Pin
 
