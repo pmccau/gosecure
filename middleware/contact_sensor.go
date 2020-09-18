@@ -57,7 +57,7 @@ func Init() {
 
 // Check on the Pins and pass a status back
 func CheckPins(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Fetching pin status")
+//	fmt.Println("Fetching pin status")
 	Init()
 	var name string
 	var futureStateStr string
@@ -81,6 +81,7 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 	for i := range stateChanged {
 		name, futureStateStr, toWrite = LogPinEvent(stateChanged[i])
 		SendMail(fmt.Sprintf("%s is %s", name, futureStateStr), toWrite)
+		fmt.Println("Changed!")
 	}
 }
 
