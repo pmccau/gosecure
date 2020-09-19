@@ -60,8 +60,8 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 //	fmt.Println("Fetching pin status")
 	Init()
 	var name string
-	var futureStateStr string
 	var toWrite string
+	var currentStateStr string
 	var stateChanged []*Pin
 
 	for i := range Pins {
@@ -79,8 +79,8 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 
 	// Send the email afterwards to not delay the sound
 	for i := range stateChanged {
-		name, futureStateStr, toWrite = LogPinEvent(stateChanged[i])
-		SendMail(fmt.Sprintf("%s is %s", name, futureStateStr), toWrite)
+		name, currentStateStr, toWrite = LogPinEvent(stateChanged[i])
+		SendMail(fmt.Sprintf("%s is %s", name, currentStateStr), toWrite)
 		fmt.Println("Changed!")
 	}
 }
@@ -111,7 +111,7 @@ func LogPinEvent(p *Pin) (string, string, string) {
 	if _, err = f.WriteString(toWrite); err != nil {
 		log.Fatal(err)
 	}
-	return p.Name, futureStateStr, toWrite
+	return p.Name, currentStateStr, toWrite
 }
 
 // Should read the log's tail, then serve it up
