@@ -2,9 +2,7 @@
 
 # gosecure
 
-gosecure is an open source home security and automation hub. At the moment it features contact sensor notifications
- to sound a chime when doors or windows are opened. The intention is that it will subsequently support additional
-  widgets, including a full alarm system, notifications, and an exposed web interface.
+gosecure is a home security/automation hub. At the moment it features contact sensor notifications to sound a chime when doors or windows are opened. The intention is that it will subsequently support additional widgets, including an alarm system, notifications, and an exposed web interface. This runs on a Raspberry Pi.
 
 ## Getting Started
 
