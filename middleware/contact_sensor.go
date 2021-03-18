@@ -66,7 +66,7 @@ func CheckPins(w http.ResponseWriter, r *http.Request) {
 
 	for i := range Pins {
 		p := Pins[i]
-		nextState := rpio.ReadPin(p.Pin) == 1
+		nextState := rpio.ReadPin(p.Pin) != 1
 		if (nextState != p.Current) {
 			stateChanged = append(stateChanged, p)
 		}

@@ -21,7 +21,7 @@ func GetWeather(w http.ResponseWriter, r *http.Request) {
 	var client = &http.Client{Timeout: 10*time.Second}
 	apiRes, err := client.Get("https://api.openweathermap.org/data/2.5/weather?zip=19147&appid=" + api_key)
 	if err != nil {
-		log.Fatal(err)
+        fmt.Println(err)
 	}
 	defer apiRes.Body.Close()
 
